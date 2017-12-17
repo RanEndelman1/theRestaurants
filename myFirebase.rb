@@ -55,4 +55,8 @@ class MyFirebase
       :instagramfollowersDelta => numberOfFollowersDelta, :numOfLikesDelta => numOfLikesDelta.to_s
       })
   end
+
+  def setRestaurantsRank(restaurantsArr)
+    @dataBase.set("restaurantsRank", restaurantsArr)
+  end
 end
