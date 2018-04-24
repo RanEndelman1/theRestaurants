@@ -8,21 +8,21 @@ class MyFirebase
   end
 
   def updateNumOfLikes(restaurantsName, restaurantJson, currNumOfLikes, numOfLikesDelta)
-  url = restaurantJson['url']
-  instagramfollowers = restaurantJson['instagramfollowers']
-  instagramUrl = restaurantJson['instagramUrl']
-  postsininstagram = restaurantJson['postsininstagram']
-  instagramPageUrl = restaurantJson['instagramPageUrl']
-  hashtag = restaurantJson['hashtag']
-  instagramfollowersDelta = restaurantJson['instagramfollowersDelta']
-  numOfHashtagsDelta = restaurantJson['numOfHashtagsDelta']
-  numOfHashtags = restaurantJson['numOfHashtags']
-  response = @dataBase.set("restaurantslist/#{restaurantsName}",
-    { :name => restaurantsName, :url => url, :numOfLikes => currNumOfLikes.to_s, :instagramfollowers => instagramfollowers,
-      :postsininstagram => postsininstagram, :instagramUrl => instagramUrl, :instagramPageUrl => instagramPageUrl,
-      :hashtag => hashtag, :numOfHashtags => numOfHashtags.to_s, :numOfHashtagsDelta => numOfHashtagsDelta,
-      :instagramfollowersDelta => instagramfollowersDelta, :numOfLikesDelta => numOfLikesDelta.to_s
-      })
+    url = restaurantJson['url']
+    instagramfollowers = restaurantJson['instagramfollowers']
+    instagramUrl = restaurantJson['instagramUrl']
+    postsininstagram = restaurantJson['postsininstagram']
+    instagramPageUrl = restaurantJson['instagramPageUrl']
+    hashtag = restaurantJson['hashtag']
+    instagramfollowersDelta = restaurantJson['instagramfollowersDelta']
+    numOfHashtagsDelta = restaurantJson['numOfHashtagsDelta']
+    numOfHashtags = restaurantJson['numOfHashtags']
+    response = @dataBase.set("restaurantslist/#{restaurantsName}",
+      { :name => restaurantsName, :url => url, :numOfLikes => currNumOfLikes.to_s, :instagramfollowers => instagramfollowers,
+        :postsininstagram => postsininstagram, :instagramUrl => instagramUrl, :instagramPageUrl => instagramPageUrl,
+        :hashtag => hashtag, :numOfHashtags => numOfHashtags.to_s, :numOfHashtagsDelta => numOfHashtagsDelta,
+        :instagramfollowersDelta => instagramfollowersDelta, :numOfLikesDelta => numOfLikesDelta.to_s
+        })
   end
 
   def getRestaurantJson(restaurantName)
