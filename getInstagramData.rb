@@ -8,33 +8,33 @@ require 'date'
 
 # Log in to instragram with hardcoed credentials
 def logIn
-@browser.goto('https://www.instagram.com/')
-@browser.wait_until { @browser.main.article.present? }
-@browser.click_element(@browser.main.article.a(text: "Log in"))
-@browser.wait_until { @browser.main.article.button(text: "Log in").present? }
-@browser.wait_until { @browser.main.article.input(name: "username").present? }
-@browser.main.article.input(name: "username").send_keys 'therestaurants510@gmail.com'
-@browser.main.article.input(name: "password").send_keys 'finalproject'
-@browser.click_element(@browser.main.article.button(text: "Log in"))
-@browser.wait_until { @browser.div(text: "Connect to Facebook").present? }
+  @browser.goto('https://www.instagram.com/')
+  @browser.wait_until { @browser.main.article.present? }
+  @browser.click_element(@browser.main.article.a(text: "Log in"))
+  @browser.wait_until { @browser.main.article.button(text: "Log in").present? }
+  @browser.wait_until { @browser.main.article.input(name: "username").present? }
+  @browser.main.article.input(name: "username").send_keys 'therestaurants510@gmail.com'
+  @browser.main.article.input(name: "password").send_keys 'finalproject'
+  @browser.click_element(@browser.main.article.button(text: "Log in"))
+  @browser.wait_until { @browser.div(text: "Connect to Facebook").present? }
 end
 
 def getPhotosCountSince(url, days)
   @browser.goto(url)
-  @browser.wait_until { @browser.div(class: "_cmdpi").divs(class: "_70iju").present? }
+  @browser.wait_until { @browser.article.present? }
   scrollForMorePics(days)
-  picsList = @browser.divs(class: "_cmdpi")[1].imgs
+  picsList = @browser.article.imgs[9..-1]
   calculateNumOfPhotos(picsList, days)
 end
 
 # This method scroll for more pics till last pic's days ago is larger than daysAgo
 def scrollForMorePics(daysAgo)
-  picsList = @browser.divs(class: "_cmdpi")[1].imgs
+  picsList = @browser.article.imgs
   lastPicDaysAgo = openPicAndCheckWeekAgo(picsList.last)
   return if !lastPicDaysAgo
   while lastPicDaysAgo
     @browser.scroll_to_element(@browser.a(text: "About us"))
-    picsList = @browser.divs(class: "_cmdpi")[1].imgs
+    picsList = @browser.article.imgs
     lastPicDaysAgo = openPicAndCheckWeekAgo(picsList.last)
   end
 end
@@ -61,17 +61,17 @@ def openPicAndGetDaysAgo(pic)
 end
 
 def calculateNumOfPhotos(picsList, days)
-counter = 0
-picsList.each do |pic|
-    # Sleep to act like a real user
-    sleep 1
-    daysAgo = openPicAndGetDaysAgo(pic)
-    if daysAgo <= days
-      counter += 1
-    else
-      return counter
+  counter = 0
+  picsList.each do |pic|
+      # Sleep to act like a real user
+      sleep 1
+      daysAgo = openPicAndGetDaysAgo(pic)
+      if daysAgo <= days
+        counter += 1
+      else
+        return counter
+      end
     end
-  end
 end
 
 def getHashtagsCount(hashtag)
@@ -83,9 +83,9 @@ def getHashtagsCount(hashtag)
   @browser.goto('https://www.instagram.com/')
   @browser.wait_until { @browser.body.input(placeholder: "Search").present? }
   @browser.body.input(placeholder: "Search").send_keys "##{hashtag}"
-  @browser.wait_until { @browser.body.a(class: "_gimca").exist? || @browser.body.div(text: "No results found.").present? }
+  @browser.wait_until { @browser.body.a(href: /tags/).exist? || @browser.body.div(text: "No results found.").present? }
   return 0 if @browser.body.div(text: "No results found.").present?
-  @browser.body.as(class: "_gimca")[0].text.scan(/\d/).join('').to_i
+  @browser.body.a(href: /tags/).text.scan(/\d/).join('').to_i
 end
 
 def getFollowersCount(url)
