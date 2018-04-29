@@ -108,10 +108,12 @@ logIn()
 restaurantsList = getRestaurantsList
 restaurantsList.each do |restaurant|
   restaurantJson = getRestaurantJson(restaurant)
-  hashTagCount = getHashtagsCount(restaurantJson['hashtag'])
-  numberOfFollowers = getFollowersCount(restaurantJson['instagramPageUrl'])
+  hashTagCount = getHashtagsCount(restaurantJson['hashtag']) unless restaurantJson['hashtag'] == ""
+  numberOfFollowers = getFollowersCount(restaurantJson['instagramPageUrl']) unless restaurantJson['instagramPageUrl'] == ""
   numberOfPhotosSince = getPhotosCountSince(restaurantJson['instagramUrl'], 7)
   puts "numberOfPhotosSince in #{restaurant}: #{numberOfPhotosSince}"
+  hashTagCount ||= "0"
+  numberOfFollowers ||= "0"
   @firebase.setInstagramData(restaurantJson, restaurant, numberOfFollowers, numberOfPhotosSince, hashTagCount)
 end
 
