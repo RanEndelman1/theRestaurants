@@ -23,7 +23,7 @@ def getPhotosCountSince(url, days)
   @browser.goto(url)
   @browser.wait_until { @browser.article.present? }
   scrollForMorePics(days)
-  picsList = @browser.article.imgs[9..-1]
+  picsList = @browser.article.imgs[10..-1]
   calculateNumOfPhotos(picsList, days)
 end
 
@@ -63,27 +63,22 @@ end
 def calculateNumOfPhotos(picsList, days)
   counter = 0
   picsList.each do |pic|
-      # Sleep to act like a real user
-      sleep 1
-      daysAgo = openPicAndGetDaysAgo(pic)
-      if daysAgo <= days
-        counter += 1
-      else
-        return counter
-      end
+    # Sleep to act like a real user
+    sleep 1
+    daysAgo = openPicAndGetDaysAgo(pic)
+    if daysAgo <= days
+      counter += 1
+    else
+      return counter
     end
+  end
 end
 
 def getHashtagsCount(hashtag)
-  # Instagram.configure do |config|
-  #   config.client_id = "c00cc259f0164818b82142e5e03c94da"
-  #   config.access_token = "210215566.c00cc25.f20b6534421945a0b665e331da569cf3"
-  # end
-  # Instagram.tag_search("nofilter").count
   @browser.goto('https://www.instagram.com/')
   @browser.wait_until { @browser.body.input(placeholder: "Search").present? }
   @browser.body.input(placeholder: "Search").send_keys "##{hashtag}"
-  @browser.wait_until { @browser.body.a(href: /tags/).exist? || @browser.body.div(text: "No results found.").present? }
+  @browser.wait_until { @browser.body.a(href: /tags/).present? || @browser.body.div(text: "No results found.").present? }
   return 0 if @browser.body.div(text: "No results found.").present?
   @browser.body.a(href: /tags/).text.scan(/\d/).join('').to_i
 end
