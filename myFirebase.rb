@@ -12,13 +12,14 @@ class MyFirebase
     instagramfollowers = restaurantJson['instagramfollowers']
     instagramUrl = restaurantJson['instagramUrl']
     postsininstagram = restaurantJson['postsininstagram']
+    description = restaurantJson['description']
     instagramPageUrl = restaurantJson['instagramPageUrl']
     hashtag = restaurantJson['hashtag']
     instagramfollowersDelta = restaurantJson['instagramfollowersDelta']
     numOfHashtagsDelta = restaurantJson['numOfHashtagsDelta']
     numOfHashtags = restaurantJson['numOfHashtags']
     response = @dataBase.set("restaurantslist/#{restaurantsName}",
-      { :name => restaurantsName, :url => url, :numOfLikes => currNumOfLikes.to_s, :instagramfollowers => instagramfollowers,
+      { :name => restaurantsName, :description => description, :url => url, :numOfLikes => currNumOfLikes.to_s, :instagramfollowers => instagramfollowers,
         :postsininstagram => postsininstagram, :instagramUrl => instagramUrl, :instagramPageUrl => instagramPageUrl,
         :hashtag => hashtag, :numOfHashtags => numOfHashtags.to_s, :numOfHashtagsDelta => numOfHashtagsDelta,
         :instagramfollowersDelta => instagramfollowersDelta, :numOfLikesDelta => numOfLikesDelta.to_s
@@ -45,11 +46,12 @@ class MyFirebase
     numOfLikes = restaurantJson['numOfLikes']
     instagramPageUrl = restaurantJson['instagramPageUrl']
     hashtag = restaurantJson['hashtag']
+    description = restaurantJson['description']
     numOfLikesDelta = restaurantJson['numOfLikesDelta']
     numberOfFollowersDelta = (numOfFollowers.to_i - restaurantJson['instagramfollowers'].to_i).to_s
     hashTagCountDelta = (numOfHashtags.to_i - restaurantJson['numOfHashtags'].to_i).to_s
     response = @dataBase.set("restaurantslist/#{restaurantsName}",
-    { :name => restaurantsName, :url => url, :numOfLikes => numOfLikes, :instagramfollowers => numOfFollowers.to_s,
+    { :name => restaurantsName, :description => description, :url => url, :numOfLikes => numOfLikes, :instagramfollowers => numOfFollowers.to_s,
       :postsininstagram => numOfPosts.to_s, :instagramUrl => instagramUrl, :numOfHashtags => numOfHashtags.to_s,
       :instagramPageUrl => instagramPageUrl, :hashtag => hashtag, :numOfHashtagsDelta => hashTagCountDelta,
       :instagramfollowersDelta => numberOfFollowersDelta, :numOfLikesDelta => numOfLikesDelta.to_s
